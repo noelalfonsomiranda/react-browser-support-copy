@@ -12,7 +12,7 @@
     "build": "webpack -p",
     "prepublish": "npm run build",
     "test": "jest",
-    "semantic-release": "semantic-release",
+    "semantic-release": "semantic-release && npm publish",
     "travis-deploy-once": "travis-deploy-once",
     "commit": "git cz"
   },
