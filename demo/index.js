@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import BrowserSupport, { detectBrowser } from '../dist'
 
-class Application extends Component {
+class Application extends React.Component {
   state = {
     browser: {}
   }
@@ -11,7 +11,7 @@ class Application extends Component {
     detectBrowser()
   }
 
-  handleScanBrowser= (data) => this.setState({browser: data})
+  handleScanBrowser= data => this.setState({browser: data})
 
   render() {
     const minBrowserVersions = {
@@ -23,10 +23,10 @@ class Application extends Component {
       safari: '10.2',
     }
 
-    console.log('browser', this.state.browser)
+    // console.log('browser', this.state.browser)
 
     return <div>
-      <BrowserSupport supported={minBrowserVersions} scanBrowser={this.handleScanBrowser}/>
+      <BrowserSupport supported={minBrowserVersions} scanBrowser={this.handleScanBrowser} showDownloadLinks />
       <h1>Hello World!</h1>
     </div>;
   }
