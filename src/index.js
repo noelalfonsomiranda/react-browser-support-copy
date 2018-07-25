@@ -17,6 +17,10 @@ export const detectBrowser = data => data
 export default class BrowserSupport extends Component {
   static propTypes = {
     supported: PropTypes.object.isRequired,
+    showDownloadLinks: PropTypes.bool,
+    style: PropTypes.object,
+    className: PropTypes.object,
+    children: PropTypes.object,
   }
 
   state = {
