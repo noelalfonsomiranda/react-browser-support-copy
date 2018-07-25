@@ -55,8 +55,6 @@ export default class MyComponent extends React.Component {
 }
 ```
 
-![](https://github.com/noelalfonsomiranda/react-browser-support-copy/blob/master/docs/default.png)
-
 ### Custom
 
 You can apply your own `style`, `className` & `children` as props to the component, and it will use those in place of the defaults.
@@ -103,8 +101,6 @@ render() {
 }
 ```
 
-![](https://github.com/noelalfonsomiranda/react-browser-support-copy/blob/master/docs/custom.png)
-
 > NOTE: If you are using chrome, you can test this with the [User-Agent Switcher for Chrome](https://chrome.google.com/webstore/search/user%20agent%20switcher) extension.
 
 ---
@@ -143,7 +139,7 @@ export default BrowserCheck(App)
 */
 
 import React, { Component } from 'react'
-import BrowserSupport, { detectBrowser } from 'react-browser-support'
+import BrowserSupport, { detectBrowser } from 'react-browser-support-copy'
 
 export default function BrowserCheck (Component) {
   class BrowserCheckComponent extends Component {
@@ -155,7 +151,7 @@ export default function BrowserCheck (Component) {
       detectBrowser()
     }
 
-    handleScanBrowser= (data) => this.setState({browser: data})
+    handleScanBrowser= data => this.setState({browser: data})
 
     render () {
       const minBrowserVersion = {
