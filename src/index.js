@@ -101,7 +101,7 @@ export default class BrowserSupport extends Component {
   }
   
   render() {
-    let { children, className, style, showDownloadLinks = false } = this.props;
+    let { children, className, style, showDownloadLinks = false, component } = this.props;
 
     return this.state && !this.state.supported ? (
       <div
@@ -113,6 +113,7 @@ export default class BrowserSupport extends Component {
         
         {showDownloadLinks && this.handleDownloadLink(showDownloadLinks)}
       </div>
-    ) : null
+    ) :
+    component ? component : null
   }  
 }
