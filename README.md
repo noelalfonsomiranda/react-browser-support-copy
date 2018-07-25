@@ -13,7 +13,13 @@ This component displays a message, if the current browser is not supported.
 This is determined using a list of supportedBrowsers ( a javascript object).
 Supported Browsers are specified as an Object to the `list` prop of `<BrowserSupport supported={minBrowserVersions}>`.
 
+## API
 
+| Name | Types | Default | Description |
+|---|---|---|---|
+| supported | object | undefined | Minimum browsers version |
+| scanBrowser | func | undefined | Minimum browsers version |
+| showDownloadLinks | bool | false | Show suggested current browser download link |
 
 ### Basic
 
@@ -161,12 +167,9 @@ export default function BrowserCheck (Component) {
 
       if (!supported) {
         appComponent = <BrowserSupport
-          supported={MIN_BROWSER_VERSIONS}
-          scanBrowser={this.handleScanBrowser}>
-          <b>{name} (version: {version}) unsupported</b>
-          <div>We don't seem to support your browser 😳</div>
-          <div>Update your browser to latest version 😉</div>
-        </BrowserSupport>
+        supported={minBrowserVersions}
+        scanBrowser={this.handleScanBrowser}
+        showDownloadLinks />
       } else {
         appComponent = <Component />
       }
@@ -179,5 +182,5 @@ export default function BrowserCheck (Component) {
 }
 ```
 
-**Acknowledgement**
+**Acknowledgement:**
 This [package](https://github.com/bilo-io/react-browser-support) is originally developed by [Bilo Lwabona](https://github.com/bilo-io)
