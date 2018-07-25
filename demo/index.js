@@ -26,7 +26,11 @@ class Application extends React.Component {
     // console.log('browser', this.state.browser)
 
     return <div>
-      <BrowserSupport supported={minBrowserVersions} scanBrowser={this.handleScanBrowser} showDownloadLinks />
+      <BrowserSupport
+        supported={minBrowserVersions}
+        scanBrowser={this.handleScanBrowser}
+        showDownloadLinks />
+        
       <h1>Hello World!</h1>
     </div>;
   }
