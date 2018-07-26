@@ -8,10 +8,14 @@ const wrapper = (Component = BrowserSupport, props = {}, enzyme = shallow) =>
 
 describe('<BrowserSupport />', () => {
   const minProps = {
-    supported: {},
+    appComponent: <div />,
+    children: {},
+    className: '',
+    showBoth: false,
+    showDownloadLinks: true,
     style: {},
-    className: {},
-    children: {}
+    config: {},
+    unsupportedComponent: () => {}
   };
 
   it('render without exploding', () => {
@@ -19,8 +23,8 @@ describe('<BrowserSupport />', () => {
     expect(renderComponent.length).toEqual(1);
   });
 
-  it("should not render div's", () => {
+  it("should render a div", () => {
     const renderedComponent = wrapper(BrowserSupport, minProps);
-    expect(renderedComponent.find('div').length).toEqual(0);
+    expect(renderedComponent.find('div').length).toEqual(1);
   });
 });

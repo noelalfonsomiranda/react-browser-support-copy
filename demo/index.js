@@ -2,6 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import BrowserSupport, { highOrderComponent } from '../dist'
 
+const Test = (props) => {
+  return (
+    <div>Custom Unsupported Component</div>
+  )
+}
 class Application extends React.Component {
   state = {
     browser: {}
@@ -21,14 +26,19 @@ class Application extends React.Component {
 
     // console.log('browser', this.state.browser)
 
-    return <div>
-      <BrowserSupport
-        supported={minBrowserVersions}
-        scanBrowser={this.handleScanBrowser}
-        showDownloadLinks />
-        
-      <h1>Hello World!</h1>
-    </div>;
+    return (
+      <div>
+        <BrowserSupport
+          config={minBrowserVersions}
+          showDownloadLinks
+          unsupportedComponent={(props) => <Test key='component' {...props} />}
+          appComponent={'<div>COMPONENT<div/>'}
+          showBoth
+        />
+          
+        <h1>Hello World!</h1>
+      </div>
+    )
   }
 }
 

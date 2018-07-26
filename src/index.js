@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { detect } from 'detect-browser';
 import cmp from 'semver-compare';
 import './style.scss';
@@ -12,21 +13,28 @@ const downloadLinks = {
   safari: 'https://support.apple.com/downloads/safari',
 }
 
-export const highOrderComponent = render => render
-
 export default class BrowserSupport extends Component {
   static propTypes = {
-    supported: PropTypes.object.isRequired,
+    config: PropTypes.object,
     showDownloadLinks: PropTypes.bool,
     style: PropTypes.object,
-    className: PropTypes.object,
-    children: PropTypes.object,
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.object
+    ]),
+    showBoth: PropTypes.bool,
+    appComponent: PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.object
+    ]),
+    unsupportedComponent: PropTypes.func,
   }
 
   state = {
     browser: {},
     message: '',
-    supported: true,
+    isSupported: true,
   }
 
   componentDidMount() {
@@ -35,15 +43,15 @@ export default class BrowserSupport extends Component {
   }
 
   determineBrowserSupport = (browser) => {
-    let { supported } = this.props;
+    const { config } = this.props;
     if (!browser) {
       console.log('could not detect browser');
     }
     else {
-      if (!supported[browser.name]) {
+      if (!config[browser.name]) {
         this.setAsUnsupported(browser);
       } else {
-        let browserVersion = supported[browser.name];
+        let browserVersion = config[browser.name];
         if (cmp(browser.version, browserVersion) < 0) {
           this.setAsUnsupported(browser);
         } else {
@@ -56,7 +64,7 @@ export default class BrowserSupport extends Component {
   setAsUnsupported = (browser) => {
     let states = {
       browser,
-      supported: false,
+      isSupported: false,
       message: `${browser.name} version ${browser.version} is not currently supported`,
     };
 
@@ -67,7 +75,7 @@ export default class BrowserSupport extends Component {
   setAsSupported = (browser) => {
     let states = {
       browser,
-      supported: true,
+      isSupported: true,
       message: `${browser.name} version ${browser.version} is supported`
     };
 
@@ -93,33 +101,41 @@ export default class BrowserSupport extends Component {
     )
   }
 
-  showUnsupportedBlock = () => {
-    const { children, className, style, showDownloadLinks = false } = this.props;
-    const {supported, message} = this.state
+  showUnSupportedBlock = () => {
+    const { children, className, style, unsupportedComponent, showDownloadLinks = false } = this.props;
 
-    return !supported ? ( <div
-      className={(!style) ? (className || 'warning-callout') : ''}
-      style={style || {}}>
-      {children ? children : (
-          <h2>{message}</h2>
-      )}
-      
-      {showDownloadLinks && this.handleDownloadLink(showDownloadLinks)}
-    </div>
-    ) : null
+    return (
+      <div
+        className={(!style) ? (className || 'warning-callout') : ''}
+        style={style || {}}>
+        {children ? children : (
+            <h2>{this.state.message}</h2>
+        )}
+        
+        {!unsupportedComponent && showDownloadLinks && this.handleDownloadLink()}
+      </div>
+    )
   }
+    
   
   render() {
-    const { blockApp = false } = this.props
-    
-    return (
-      <section>
-        {
-          !blockApp ?
-          this.showUnsupportedBlock() :
-          highOrderComponent(this.showUnsupportedBlock)
-        }
-      </section>
-    )
-  }  
+    const { appComponent, unsupportedComponent, showBoth = false } = this.props
+    const handleWarning = !unsupportedComponent ? this.showUnSupportedBlock() : unsupportedComponent(this.state)
+    let component
+
+    if (this.state.isSupported) {
+      component = appComponent || null
+    } else {
+      if (showBoth) {
+        component = <div>
+            { handleWarning }
+            { appComponent || null }
+          </div>
+      } else {
+        component = handleWarning
+      }
+    }
+
+    return component
+  }
 }

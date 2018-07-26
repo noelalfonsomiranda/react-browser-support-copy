@@ -5,7 +5,7 @@
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 - [add BrowserSupport component to your app as element](#user-content-component)
-- [make BrowserSupport component an higher order component](#user-content-higher-order-component)
+- [make BrowserSupport component a higher order component](#user-content-higher-order-component)
 
 ### Installation
 
@@ -21,10 +21,15 @@ Supported Browsers are specified as an Object to the `list` prop of `<BrowserSup
 
 | Name | Types | Default | Description |
 |---|---|---|---|
-| supported | object | undefined | Minimum browsers version |
-| scanBrowser | func | undefined | Minimum browsers version |
+| config | object | undefined | Minimum browsers version |
 | showDownloadLinks | bool | false | Show suggested current browser download link |
-| blockApp | bool | false | This is required for Higher Order Component |
+| className |   |   | For custom content or styles |
+| styles |   |   | For custom styles |
+| unsupportedComponent |   |   | This is required for Higher Order Component |
+| appComponent |   |   | This is for higher component method which render your whole app |
+| showBoth | bool | false | This is for higher component method which show both unsupported component and normally for app component |
+
+**Note:** `unsupportedComponent` prop will disable the following prop *showDownloadLinks, style and className*
 
 ### Basic
 
@@ -32,7 +37,7 @@ You can use the default `<BrowserSupport />` component.
 
 ```jsx
 import React from 'react'
-import BrowserSupport, { detectBrowser } from 'react-browser-support-copy'
+import BrowserSupport from 'react-browser-support-copy'
 
 const minBrowserVersions = {
     chrome: '60',
@@ -42,6 +47,7 @@ const minBrowserVersions = {
     opera: '10',
     safari: '10'
 }
+
 export default class MyComponent extends React.Component {
     componentDidMount() {
         this.setState({ browser: detectBrowser() })
@@ -49,7 +55,7 @@ export default class MyComponent extends React.Component {
     render() {
         return (
             //...
-            <BrowserSupport supported={minBrowserVersions}/>
+            <BrowserSupport config={minBrowserVersions}/>
             //...
         )
     }
@@ -60,31 +66,20 @@ export default class MyComponent extends React.Component {
 
 You can apply your own `style`, `className` & `children` as props to the component, and it will use those in place of the defaults.
 
-You can also extract the name & version of the current browser, using the function `onCheck`.
-
 ```jsx
-componentDidMount() {
-    this.onCheck = this.onCheck.bind(this);
-    this.setState({ browser: detectBrowser() })
-}
-onCheck(browser) {
-    this.setState({browser})
-}
 render() {
     return this.state ? (
         <div>
         {/* With Custom Content */}
         <BrowserSupport
-            onCheck={this.onCheck}
-            supported={minBrowserVersions}
+            config={minBrowserVersions}
             className='custom-warning-style'
         />
 
         {/* With Custom Content & Browser Version, etc. */}
-        <BrowserSupport
-            onCheck={this.onCheck}
-            supported={minBrowserVersions}
-            style={inlineWarningStyle}>
+        <BrowserSupportx
+            config={minBrowserVersions}
+            style={yourCustomStyles}>
             <b>
                 {this.state.browser.name} (version: {this.state.browser.version}) unsupported
             </b> 
@@ -111,7 +106,6 @@ render() {
 This is a higher order component which wraps your app and detect if your browser is supported or not.
 This will not allow users to browse your app if their browser is unsupported.
 
-**Note:** `blockApp` property is required on this method.
 
 ```jsx
 /**
@@ -145,6 +139,13 @@ import React from 'react'
 import BrowserSupport, { highOrderComponent } from 'react-browser-support-copy'
 
 export default function BrowserCheck (Component) {
+    const TestComponent = (props) => {
+        console.log('props', props)
+        return (
+            <div>My Custom Unsupported Component</div>
+        )
+    }
+
   class BrowserCheckComponent extends React.Component {
     state = {
       browser: {}
@@ -164,20 +165,16 @@ export default function BrowserCheck (Component) {
       }
 
       return (
-        <div>
-          <BrowserSupport
-            supported={minBrowserVersion}
-            scanBrowser={this.handleScanBrowser}
-            showDownloadLinks
-            blockApp />
-
-          {
-            !supported ?
-            highOrderComponent() :
-            <Component />
-          }
-        </div>
-      )
+            <div>
+                <BrowserSupport
+                    config={minBrowserVersions}
+                    showDownloadLinks // this will show suggested download links for user's browser
+                    unsupportedComponent={(props) => <TestComponent key='component' {...props} />} // this will show your custom component if the browser is unsupported
+                    appComponent={'<Component />'} // this is for higher component order method only
+                    showBoth // this will show both unsupported and your app component
+                />
+            </div>
+        )
     }
   }
 
