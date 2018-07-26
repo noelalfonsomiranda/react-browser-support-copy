@@ -77,7 +77,7 @@ render() {
         />
 
         {/* With Custom Content & Browser Version, etc. */}
-        <BrowserSupportx
+        <BrowserSupport
             config={minBrowserVersions}
             style={yourCustomStyles}>
             <b>
@@ -115,7 +115,7 @@ This will not allow users to browse your app if their browser is unsupported.
 */
 
 import React from 'react'
-import BrowserCheck from 'components/Shared/BrowserCheck'
+import BrowserCheck from 'components/BrowserCheck'
 
 export function App () {
   return (
