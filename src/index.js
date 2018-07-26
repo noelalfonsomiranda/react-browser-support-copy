@@ -12,7 +12,7 @@ const downloadLinks = {
   safari: 'https://support.apple.com/downloads/safari',
 }
 
-export const detectBrowser = data => data
+export const highOrderComponent = render => render
 
 export default class BrowserSupport extends Component {
   static propTypes = {
@@ -27,13 +27,6 @@ export default class BrowserSupport extends Component {
     browser: {},
     message: '',
     supported: true,
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if (this.state !== nextState) {
-      detectBrowser(nextState);
-    }
-    return true
   }
 
   componentDidMount() {
@@ -99,20 +92,32 @@ export default class BrowserSupport extends Component {
       </div>
     )
   }
+
+  showUnsupportedBlock = () => {
+    const { children, className, style, showDownloadLinks = false } = this.props;
+    const {supported, message} = this.state
+  
+    return !supported ? ( <div
+      className={(!style) ? (className || 'warning-callout') : ''}
+      style={style || {}}>
+      {children ? children : (
+          <h2>{message}</h2>
+      )}
+      
+      {showDownloadLinks && this.handleDownloadLink(showDownloadLinks)}
+    </div>
+    ) : null
+  }
   
   render() {
-    let { children, className, style, showDownloadLinks = false } = this.props;
-
-    return this.state && !this.state.supported ? (
-      <div
-        className={(!style) ? (className || 'warning-callout') : ''}
-        style={style || {}}>
-        {children ? children : (
-            <h2>{this.state.message}</h2>
-        )}
-        
-        {showDownloadLinks && this.handleDownloadLink(showDownloadLinks)}
-      </div>
-    ) : null
+    return (
+      <section>
+        {
+          !this.props.blockApp ?
+          this.showUnsupportedBlock() :
+          highOrderComponent(this.showUnsupportedBlock())
+        }
+      </section>
+    )
   }  
 }

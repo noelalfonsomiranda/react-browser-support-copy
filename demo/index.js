@@ -1,14 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import BrowserSupport, { detectBrowser } from '../dist'
+import BrowserSupport, { highOrderComponent } from '../dist'
 
 class Application extends React.Component {
   state = {
     browser: {}
-  }
-  
-  componentDidMount() {
-    detectBrowser()
   }
 
   handleScanBrowser= data => this.setState({browser: data})
@@ -29,7 +25,10 @@ class Application extends React.Component {
       <BrowserSupport
         supported={minBrowserVersions}
         scanBrowser={this.handleScanBrowser}
-        showDownloadLinks />
+        showDownloadLinks
+        blockApp />
+
+        {highOrderComponent()}
         
       <h1>Hello World!</h1>
     </div>;
