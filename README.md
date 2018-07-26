@@ -24,6 +24,7 @@ Supported Browsers are specified as an Object to the `list` prop of `<BrowserSup
 | supported | object | undefined | Minimum browsers version |
 | scanBrowser | func | undefined | Minimum browsers version |
 | showDownloadLinks | bool | false | Show suggested current browser download link |
+| blockApp | bool | false | This is required for Higher Order Component |
 
 ### Basic
 
@@ -110,6 +111,8 @@ render() {
 This is a higher order component which wraps your app and detect if your browser is supported or not.
 This will not allow users to browse your app if their browser is unsupported.
 
+**Note:** `blockApp` property is required on this method.
+
 ```jsx
 /**
 *
@@ -138,22 +141,19 @@ export default BrowserCheck(App)
 *
 */
 
-import React, { Component } from 'react'
-import BrowserSupport, { detectBrowser } from 'react-browser-support-copy'
+import React from 'react'
+import BrowserSupport, { highOrderComponent } from 'react-browser-support-copy'
 
 export default function BrowserCheck (Component) {
-  class BrowserCheckComponent extends Component {
+  class BrowserCheckComponent extends React.Component {
     state = {
       browser: {}
-    }
-
-    componentDidMount () {
-      detectBrowser()
     }
 
     handleScanBrowser= data => this.setState({browser: data})
 
     render () {
+      const { supported } = this.state.browser
       const minBrowserVersion = {
         chrome: '60',
         edge: '13',
@@ -162,19 +162,22 @@ export default function BrowserCheck (Component) {
         opera: '10',
         safari: '10'
       }
-      const { browser: {name, version}, supported } = this.state
-      let appComponent
 
-      if (!supported) {
-        appComponent = <BrowserSupport
-        supported={minBrowserVersions}
-        scanBrowser={this.handleScanBrowser}
-        showDownloadLinks />
-      } else {
-        appComponent = <Component />
-      }
+      return (
+        <div>
+          <BrowserSupport
+            supported={minBrowserVersion}
+            scanBrowser={this.handleScanBrowser}
+            showDownloadLinks
+            blockApp />
 
-      return appComponent
+          {
+            !supported ?
+            highOrderComponent() :
+            <Component />
+          }
+        </div>
+      )
     }
   }
 

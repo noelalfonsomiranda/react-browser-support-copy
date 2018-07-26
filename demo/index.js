@@ -25,10 +25,7 @@ class Application extends React.Component {
       <BrowserSupport
         supported={minBrowserVersions}
         scanBrowser={this.handleScanBrowser}
-        showDownloadLinks
-        blockApp />
-
-        {highOrderComponent()}
+        showDownloadLinks />
         
       <h1>Hello World!</h1>
     </div>;

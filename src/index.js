@@ -96,7 +96,7 @@ export default class BrowserSupport extends Component {
   showUnsupportedBlock = () => {
     const { children, className, style, showDownloadLinks = false } = this.props;
     const {supported, message} = this.state
-  
+
     return !supported ? ( <div
       className={(!style) ? (className || 'warning-callout') : ''}
       style={style || {}}>
@@ -110,12 +110,14 @@ export default class BrowserSupport extends Component {
   }
   
   render() {
+    const { blockApp = false } = this.props
+    
     return (
       <section>
         {
-          !this.props.blockApp ?
+          !blockApp ?
           this.showUnsupportedBlock() :
-          highOrderComponent(this.showUnsupportedBlock())
+          highOrderComponent(this.showUnsupportedBlock)
         }
       </section>
     )
