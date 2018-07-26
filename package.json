@@ -64,6 +64,7 @@
   "dependencies": {
     "detect-browser": "^2.0.0",
     "node-sass": "4.9.2",
+    "prop-types": "15.6.2",
     "semver-compare": "^1.0.0"
   },
   "czConfig": {
