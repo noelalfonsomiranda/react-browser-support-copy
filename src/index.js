@@ -9,8 +9,9 @@ const downloadLinks = {
   edge: 'https://microsoft-edge.en.softonic.com/download',
   firefox: 'https://www.mozilla.org/en-US/firefox',
   ie: 'https://www.microsoft.com/en-us/download/internet-explorer.aspx',
+  ios: 'https://support.apple.com/downloads/safari',
   opera: 'https://www.opera.com',
-  safari: 'https://support.apple.com/downloads/safari',
+  safari: 'https://support.apple.com/downloads/safari'
 }
 
 export default class BrowserSupport extends Component {
