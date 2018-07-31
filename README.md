@@ -44,6 +44,7 @@ const minBrowserVersions = {
     edge: '13',
     firefox: '60',
     ie: '10',
+    ios: '10',
     opera: '10',
     safari: '10'
 }
@@ -160,6 +161,7 @@ export default function BrowserCheck (Component) {
         edge: '13',
         firefox: '60',
         ie: '10',
+        ios: '10',
         opera: '10',
         safari: '10'
       }
