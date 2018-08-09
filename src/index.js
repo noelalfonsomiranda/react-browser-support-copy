@@ -6,6 +6,7 @@ import './style.scss';
 
 const downloadLinks = {
   chrome: 'https://www.google.com/chrome',
+  crios: 'https://www.google.com/chrome',
   edge: 'https://microsoft-edge.en.softonic.com/download',
   firefox: 'https://www.mozilla.org/en-US/firefox',
   ie: 'https://www.microsoft.com/en-us/download/internet-explorer.aspx',
