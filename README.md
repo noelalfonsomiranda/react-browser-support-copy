@@ -41,6 +41,7 @@ import BrowserSupport from 'react-browser-support-copy'
 
 const minBrowserVersions = {
     chrome: '60',
+    crios: '60',
     edge: '13',
     firefox: '60',
     ie: '10',
@@ -158,6 +159,7 @@ export default function BrowserCheck (Component) {
       const { supported } = this.state.browser
       const minBrowserVersion = {
         chrome: '60',
+        crios: '60',
         edge: '13',
         firefox: '60',
         ie: '10',

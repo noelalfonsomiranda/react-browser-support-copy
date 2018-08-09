@@ -16,12 +16,14 @@ class Application extends React.Component {
 
   render() {
     const minBrowserVersions = {
-      chrome: '68',
-      edge: '6',
-      firefox: '19.5',
+      chrome: '60',
+      crios: '60',
+      edge: '13',
+      firefox: '60',
       ie: '10',
-      opera: '10.0',
-      safari: '10.2',
+      ios: '10',
+      opera: '10',
+      safari: '10'
     }
 
     // console.log('browser', this.state.browser)
