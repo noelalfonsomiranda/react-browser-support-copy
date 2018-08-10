@@ -9,6 +9,7 @@ const downloadLinks = {
   crios: 'https://www.google.com/chrome',
   edge: 'https://microsoft-edge.en.softonic.com/download',
   firefox: 'https://www.mozilla.org/en-US/firefox',
+  fxios: 'https://www.mozilla.org/en-US/firefox',
   ie: 'https://www.microsoft.com/en-us/download/internet-explorer.aspx',
   ios: 'https://support.apple.com/downloads/safari',
   opera: 'https://www.opera.com',
@@ -92,9 +93,12 @@ export default class BrowserSupport extends Component {
       <div>
         <b>Please update your browser:</b>
         <ul>
-          <li>
-            <a href={downloadLinks[name]} target='_blank'>Download link</a> for your current browser.
-          </li>
+          {
+            downloadLinks[name] &&
+            <li>
+              <a href={downloadLinks[name]} target='_blank'>Download link</a> for your current browser.
+            </li>
+          }
           <li>
             For better user experience download latest Chrome <a href={downloadLinks.chrome} target='_blank'>here</a>.
           </li>

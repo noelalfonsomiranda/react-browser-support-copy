@@ -20,6 +20,7 @@ class Application extends React.Component {
       crios: '60',
       edge: '13',
       firefox: '60',
+      fxios: '12',
       ie: '10',
       ios: '10',
       opera: '10',
