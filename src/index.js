@@ -52,13 +52,13 @@ export default class BrowserSupport extends Component {
     }
     else {
       if (!config[browser.name]) {
-        this.setAsUnsupported(browser);
+        this.setAsSupported(browser);
       } else {
         let browserVersion = config[browser.name];
         if (cmp(browser.version, browserVersion) < 0) {
           this.setAsUnsupported(browser);
         } else {
-            this.setAsSupported(browser);
+          this.setAsSupported(browser);
         }
       }
     }
