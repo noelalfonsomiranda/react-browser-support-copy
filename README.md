@@ -40,9 +40,11 @@ import React from 'react'
 import BrowserSupport from 'react-browser-support-copy'
 
 const minBrowserVersions = {
+    'ios-webview': '605',
     chrome: '60',
     crios: '60',
     edge: '13',
+    facebook: '1.88',
     firefox: '60',
     fxios: '12',
     ie: '10',
@@ -159,9 +161,11 @@ export default function BrowserCheck (Component) {
     render () {
       const { supported } = this.state.browser
       const minBrowserVersion = {
+        'ios-webview': '605',
         chrome: '60',
         crios: '60',
         edge: '13',
+        facebook: '1.88',
         firefox: '60',
         fxios: '12',
         ie: '10',
